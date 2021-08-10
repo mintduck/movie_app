@@ -1,0 +1,19 @@
+1. npm i gh-pages
+2. package.json 끝에 homepage 추가(사용자.github.io/저장소)
+    단, username, repository는 모두 소문자여야 하고 띄어쓰기가 있으면 안된다!!
+  ("homepage": "https://mintduck.github.io/movie_app")
+3. package.json의 script에 deploy와 predeploy 추가
+  deploy가 build 폴더에 업로드하고
+  predeploy가 npm run build를 통해 build 폴더를 생성한다.
+    (deploy를 호출하면 자동으로 predeploy가 먼저 호출된다. (지금처럼 pre뒤에 오는 이름이 같을 경우))
+
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "deploy": "gh-pages -d build",
+    "predeploy": "npm run build"
+  },
+4. terminal에 npm run deploy
+    Published 메세지가 나오면 완성!
+
+이제 수정사항 발생시 npm run deploy 만 해주면 된다. 
