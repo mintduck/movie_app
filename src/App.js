@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React from 'react';
 import axios from "axios";
+import Movie from "./Movie";
 
 class App extends React.Component {
 
@@ -9,23 +10,38 @@ class App extends React.Component {
     movies: []
   };
 
-  //이론적으로 componentDidMount에서 data를 fetch해보자
-  //API로 부터 data fetching이 완료되면 "We are ready" 대신에 movie를 Rnder하고, map을 만들고 movie를 render 하자 
-
-  getMovies = async() => {
-    //async, await: axios가 끝날 때 까지 기다렸다가 계속하기(async 없이 await 단독으로 사용할 수 없음)
-    const movies = await axios.get("https://yts.mx/api/v2/list_movies.json");
+  getMovies = async () => {
+    const {
+      data: {
+        data: { movies }
+      }
+    } = await axios.get("https://yts.mx/api/v2/list_movies.json?sort_by=rating");
+    this.setState({ movies, isLoading: false })//this.setState({movies:movies})  앞의 movies는 state에 있고, 뒤의 movies는 axios에서 옴 축약해서({movies})라고 쓸 수 있다.
   }
 
- componentDidMount(){
-    //데이터를 패치할 때 fetch대신 Axios를 사용해보자.(axios : fetch위의 작은 layer)
-    //axios가 시간이 소요될 수 있기 때문에 javascript에게 componentDidMount가 시간이 소요될 수 있음을 알린다. (asyinc componentDidMount() 또는 getMovies 함수 만들기)
+  componentDidMount() {
     this.getMovies();
   }
+
+  //API에서 데이터를 가져와 state의 isLoading을 나타낸 뒤 API에서 가져온 데이터를 보여준다.
+
   render() {
-    const { isLoading } = this.state;
-    return <div>{isLoading ? "Loading..." : "We are ready"}</div>;
-  }
+    const { isLoading, movies } = this.state;
+    return (<div>{isLoading ? "Loading..." : movies.map(movie => (
+          //console.log(movie);
+          <Movie
+            key={movie.id}
+            id={movie.id}
+            year={movie.year}
+            title={movie.title}
+            summary={movie.summary}
+            poster={movie.medium_cover_image}
+          />
+        ))}
+    </div>
+  );
 }
+
+} 
 
 export default App;
