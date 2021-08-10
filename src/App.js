@@ -1,48 +1,23 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React from 'react';
-import PropTypes from "prop-types"
 
 class App extends React.Component {
 
-  constructor(props) {
-    super(props);
-    console.log("hello");
-  }
-
   state = {
-    count: 0
+    isLoading: true,
+    movies: []
   };
-  
-  add = () => {
 
-    this.setState(current => ({count: current.count +1}));//react 외부의 상태에 의존하지 않는 가장 좋은 방법
-  };
-  
-  minus = () => {
-    this.setState(current => ({count: current.count - 1}));
-  };
-  
-componentDidMount() {
-  console.log("component rended");
-}
-
-componentDidUpdate() {
-  console.log("i just updated");
-}
-
-componentWillUnmount() {
-  console.log("Goodbye, cruel world");
-}
-
+  //이론적으로 componentDidMount에서 data를 fetch해보자
+  //API로 부터 data fetching이 완료되면 "We are ready" 대신에 movie를 Rnder하고, map을 만들고 movie를 render 하자 
+  componentDidMount(){
+    setTimeout(() => {
+      this.setState({isLoading:false});
+    },5000)
+  }
   render() {
-    console.log("I am rendering");
-    return (
-      <div>
-        <h1>The number is: {this.state.count}</h1>
-        <button onClick={this.add}>Add</button>
-        <button onClick={this.minus}>Minus</button>
-      </div>
-    )
+    const { isLoading } = this.state;
+    return <div>{isLoading ? "Loading..." : "We are ready"}</div>;
   }
 }
 
