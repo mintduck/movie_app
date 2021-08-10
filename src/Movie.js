@@ -1,11 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
+import "./Movie.css";
 
 //movie component는 stat가 필요없음 function 컴포넌트로 만들자.
 
-function Movie({id, year, title, summary, poster}) {
+function Movie({ year, title, summary, poster }) {
   return (
-    <h4>{title}</h4>
+    <div class="movies__movie">
+      <img src={poster} alt={title} title={title} />
+      <div class="movie__data">
+        <h3 class="movie_title">{title}</h3>
+        <h5 class="movie__year">{year}</h5>
+        <p class="movie__summary">{summary}</p>
+      </div>
+    </div>
   );
 }
 
